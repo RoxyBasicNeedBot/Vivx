@@ -103,4 +103,25 @@ class VivxFormTest {
         assertFalse(form.isLastField("second"))
         assertTrue(form.isLastField("third"))
     }
+
+    @Test
+    fun urlRule_validatesProperly() {
+        val rule = UrlRule("Invalid stream URL")
+        assertNull(rule.validate("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"))
+        assertNull(rule.validate("rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4"))
+        assertNull(rule.validate("http://example.com/live.m3u8"))
+        assertEquals("Invalid stream URL", rule.validate("ftp://invalid.com/file.mp4"))
+        assertEquals("Invalid stream URL", rule.validate("just-some-text"))
+    }
+
+    @Test
+    fun numberRangeRule_validatesRange() {
+        val rule = NumberRangeRule(min = 0.5, max = 2.0, errorMessage = "Speed must be 0.5x to 2.0x")
+        assertNull(rule.validate("1.0"))
+        assertNull(rule.validate("0.5"))
+        assertNull(rule.validate("2.0"))
+        assertEquals("Speed must be 0.5x to 2.0x", rule.validate("0.25"))
+        assertEquals("Speed must be 0.5x to 2.0x", rule.validate("3.0"))
+        assertEquals("Please enter a valid number", rule.validate("abc"))
+    }
 }

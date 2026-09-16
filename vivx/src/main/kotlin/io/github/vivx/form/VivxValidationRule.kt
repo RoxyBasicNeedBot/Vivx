@@ -105,3 +105,34 @@ class CustomRule(
         return if (predicate(value)) null else errorMessage
     }
 }
+
+/**
+ * Validates network streaming or web URL (http, https, rtsp, rtmp, m3u8).
+ */
+class UrlRule(
+    private val errorMessage: String = "Please enter a valid stream or web URL",
+    private val allowedSchemes: Set<String> = setOf("http", "https", "rtsp", "rtmp", "m3u8", "udp")
+) : VivxValidationRule {
+    override fun validate(value: String): String? {
+        if (value.trim().isEmpty()) return null
+        val lower = value.trim().lowercase()
+        val hasScheme = allowedSchemes.any { lower.startsWith("$it://") || lower.startsWith("$it:") }
+        return if (hasScheme) null else errorMessage
+    }
+}
+
+/**
+ * Validates that numeric input falls within a given min and max range.
+ */
+class NumberRangeRule(
+    private val min: Double = Double.MIN_VALUE,
+    private val max: Double = Double.MAX_VALUE,
+    private val errorMessage: String = "Value must be between $min and $max"
+) : VivxValidationRule {
+    override fun validate(value: String): String? {
+        if (value.trim().isEmpty()) return null
+        val num = value.toDoubleOrNull() ?: return "Please enter a valid number"
+        return if (num in min..max) null else errorMessage
+    }
+}
+

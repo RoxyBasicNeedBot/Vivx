@@ -138,6 +138,47 @@ Row {
 }
 ```
 
+### 7. 🎬 Media Overlay Scaffold (`VivxOverlayScaffold`)
+Specifically designed for media apps (like video/audio players):
+- Anchors MiniPlayer above system navigation bar.
+- Floats navigation pill above MiniPlayer with auto-hide animation on search / multiselect.
+- Automatically calculates dynamic bottom content padding so lists never get cut off or hidden behind floating controls!
+
+```kotlin
+VivxOverlayScaffold(
+    isMiniPlayerVisible = isPlaying,
+    miniPlayer = { MiniPlayerBar(...) },
+    floatingBottomBar = { FloatingNavBar(...) }
+) { contentPadding ->
+    LazyColumn(contentPadding = contentPadding) {
+        items(mediaList) { ... }
+    }
+}
+```
+
+### 8. 💬 Modal Form Dialogs & BottomSheets
+Launch forms inside modal dialogs or bottom sheets with zero boilerplate:
+```kotlin
+// Modal Form Dialog (e.g. Open Stream URL)
+VivxFormDialog(
+    form = streamForm,
+    title = "Open Network Stream",
+    onConfirm = { data -> player.play(data["streamUrl"]!!) }
+) {
+    VivxTextField(key = "streamUrl", label = "Stream URL")
+}
+
+// Modal Form BottomSheet (e.g. Playback Speed & Settings)
+VivxBottomSheetForm(
+    form = settingsForm,
+    title = "Playback Settings",
+    onSave = { data -> ... }
+) {
+    VivxNumberField(key = "speed", label = "Speed", step = 0.25, min = 0.5, max = 2.0, isDecimal = true, suffix = "x")
+    VivxSwitchField(key = "hwAccel", title = "Hardware Acceleration")
+}
+```
+
 ---
 
 ## 📁 Repository Structure
@@ -148,25 +189,42 @@ vivx/
 │   └── src/main/kotlin/io/github/vivx/
 │       ├── VivxDsl.kt            # DSL marker annotation
 │       ├── form/                 # Form engine, state & validation rules
-│       ├── components/           # VivxTextField, VivxPasswordField, VivxSubmitButton
+│       ├── components/           # VivxTextField, VivxPasswordField, VivxNumberField, VivxSwitchField, VivxDropdownField
+│       ├── dialog/               # VivxFormDialog, VivxBottomSheetForm
+│       ├── settings/             # VivxSettings DSL (Category, SwitchPref, SliderPref, ActionPref)
 │       ├── state/                # VivxContent LCE state machine
-│       └── layout/               # Scope-aware spacers
+│       └── layout/               # VivxOverlayScaffold & scope-aware spacers
 │   └── src/test/                 # Comprehensive unit tests
 └── sample/                       # Showcase Demo App
     └── src/main/kotlin/io/github/vivx/sample/
-        ├── MainActivity.kt       # Tab navigation container
-        └── screens/              # Login, Registration & LCE state screens
+        ├── MainActivity.kt       # 4-Tab showcase container
+        └── screens/              # Login, Register, LCE state & Media Player Demo screens
 ```
 
 ---
 
 ## 📥 Installation
 
+### Option 1: Direct Maven Dependency
 Add the dependency to your app's `build.gradle.kts`:
 
 ```kotlin
 dependencies {
     implementation("io.github.vivx:vivx:1.0.0")
+}
+```
+
+### Option 2: Local Composite Build (Instant integration into existing apps)
+To use `vivx` directly in your local project (e.g., `NextPlayer`) without waiting for Maven Central:
+In your project's `settings.gradle.kts`:
+
+```kotlin
+includeBuild("../vivx")
+```
+And in your module's `build.gradle.kts`:
+```kotlin
+dependencies {
+    implementation("io.github.vivx:vivx")
 }
 ```
 

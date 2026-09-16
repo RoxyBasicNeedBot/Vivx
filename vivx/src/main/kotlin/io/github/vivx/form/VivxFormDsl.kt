@@ -54,6 +54,27 @@ class VivxFieldBuilder(val key: String) {
     }
 
     /**
+     * Enforces valid network streaming or web URL.
+     */
+    fun url(
+        errorMessage: String = "Please enter a valid stream or web URL",
+        allowedSchemes: Set<String> = setOf("http", "https", "rtsp", "rtmp", "m3u8", "udp")
+    ) {
+        rules.add(UrlRule(errorMessage, allowedSchemes))
+    }
+
+    /**
+     * Enforces numeric range constraint.
+     */
+    fun numberRange(
+        min: Double = Double.MIN_VALUE,
+        max: Double = Double.MAX_VALUE,
+        errorMessage: String = "Value must be between $min and $max"
+    ) {
+        rules.add(NumberRangeRule(min, max, errorMessage))
+    }
+
+    /**
      * Custom validation rule using a lambda predicate.
      */
     fun custom(errorMessage: String, predicate: (String) -> Boolean) {
