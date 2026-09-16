@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddLink
+import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Pause
@@ -27,6 +28,13 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.VideoLibrary
+import androidx.compose.material.icons.outlined.Chat
+import androidx.compose.material.icons.outlined.Cloud
+import androidx.compose.material.icons.outlined.Folder
+import androidx.compose.material.icons.outlined.Settings
+import io.github.vivx.ui.navigation.VivxAnimatedIcon
+import io.github.vivx.ui.navigation.VivxFloatingNavBar
+import io.github.vivx.ui.navigation.VivxNavItem
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -127,33 +135,42 @@ fun MediaOverlayDemoScreen(modifier: Modifier = Modifier) {
             }
         },
         floatingBottomBar = {
-            // Floating pill navigation bar (NextPlayer Telegram style)
-            Box(
-                modifier = Modifier
-                    .width(260.dp)
-                    .height(54.dp)
-                    .clip(RoundedCornerShape(27.dp))
-                    .background(MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.95f))
-                    .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f), RoundedCornerShape(27.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    val tabs = listOf("Library" to Icons.Default.Folder, "Cloud" to Icons.Default.Cloud, "Settings" to Icons.Default.Settings)
-                    tabs.forEachIndexed { index, pair ->
-                        IconButton(onClick = { selectedNavIndex = index }) {
-                            Icon(
-                                imageVector = pair.second,
-                                contentDescription = pair.first,
-                                tint = if (selectedNavIndex == index) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
+            val navItems = listOf(
+                VivxNavItem(id = "library", title = "Library", badgeCount = 0) { isSelected ->
+                    VivxAnimatedIcon(
+                        selectedIcon = Icons.Filled.Folder,
+                        unselectedIcon = Icons.Outlined.Folder,
+                        isSelected = isSelected
+                    )
+                },
+                VivxNavItem(id = "cloud", title = "Cloud", badgeCount = 3) { isSelected ->
+                    VivxAnimatedIcon(
+                        selectedIcon = Icons.Filled.Cloud,
+                        unselectedIcon = Icons.Outlined.Cloud,
+                        isSelected = isSelected
+                    )
+                },
+                VivxNavItem(id = "channels", title = "Channels", badgeCount = 14) { isSelected ->
+                    VivxAnimatedIcon(
+                        selectedIcon = Icons.Filled.Chat,
+                        unselectedIcon = Icons.Outlined.Chat,
+                        isSelected = isSelected
+                    )
+                },
+                VivxNavItem(id = "settings", title = "Settings") { isSelected ->
+                    VivxAnimatedIcon(
+                        selectedIcon = Icons.Filled.Settings,
+                        unselectedIcon = Icons.Outlined.Settings,
+                        isSelected = isSelected
+                    )
                 }
-            }
+            )
+
+            VivxFloatingNavBar(
+                items = navItems,
+                selectedIndex = selectedNavIndex,
+                onItemSelected = { selectedNavIndex = it }
+            )
         }
     ) { contentPadding ->
         LazyColumn(
