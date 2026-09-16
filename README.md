@@ -2,6 +2,7 @@
 
 > **A modern, declarative form validation, automated focus chaining, and UI state toolkit for Jetpack Compose.**
 
+[![CI Build](https://github.com/RoxyBasicNeedBot/Vivx/actions/workflows/ci.yml/badge.svg)](https://github.com/RoxyBasicNeedBot/Vivx/actions/workflows/ci.yml)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0.20-7F52FF.svg?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Compose](https://img.shields.io/badge/Jetpack%20Compose-2024.09.00-4285F4.svg?logo=android&logoColor=white)](https://developer.android.com/jetpack/compose)
 [![Min SDK](https://img.shields.io/badge/Min%20SDK-21-3DDC84.svg?logo=android&logoColor=white)](https://developer.android.com)
