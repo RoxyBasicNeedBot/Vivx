@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun VivxSampleApp() {
     var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = listOf("Sign In", "Register", "LCE State", "Media Demo", "Player UI")
+    val tabs = listOf("Sign In", "Register", "LCE State", "Media Demo", "Player UI", "Chat UI")
 
     Scaffold(
         topBar = {
@@ -74,6 +74,7 @@ fun VivxSampleApp() {
                 2 -> LceScreen()
                 3 -> io.github.vivx.sample.screens.MediaOverlayDemoScreen()
                 4 -> io.github.vivx.sample.screens.PlayerUiShowcaseScreen()
+                5 -> io.github.vivx.sample.screens.ChatUiShowcaseScreen()
             }
         }
     }

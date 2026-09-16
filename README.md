@@ -179,6 +179,33 @@ VivxBottomSheetForm(
 }
 ```
 
+### 9. 💬 Chat & Cloud Media UI (`io.github.vivx.ui.chat`)
+Specifically crafted for modern messenger & media cloud apps:
+- **`VivxMessageBubble`**: Outgoing/Incoming message bubbles with reply quotes, timestamps, and double-check read receipts (`✓✓`).
+- **`VivxChatListItem`**: Conversation list item with verified badge, unread pill counters, and online indicators.
+- **`VivxDocumentBubble`**: Media / Video file attachment with circular progress download/play button.
+- **`VivxPinnedBar`**: Pinned message strip anchored at the top of chat/channel feeds.
+
+```kotlin
+// Incoming message with reply quote
+VivxMessageBubble(
+    text = "Check out this movie in Telegram Cloud!",
+    time = "11:32 AM",
+    isOutgoing = false,
+    replyAuthor = "Cloud Bot",
+    replySnippet = "Dune_Part_Two.mkv ready"
+)
+
+// Document attachment with live circular download button
+VivxDocumentBubble(
+    fileName = "Movie_1080p.mkv",
+    fileSize = "2.4 GB",
+    isOutgoing = false,
+    state = VivxAttachmentState.READY,
+    onActionClick = { player.play() }
+)
+```
+
 ---
 
 ## 📁 Repository Structure
@@ -193,12 +220,19 @@ vivx/
 │       ├── dialog/               # VivxFormDialog, VivxBottomSheetForm
 │       ├── settings/             # VivxSettings DSL (Category, SwitchPref, SliderPref, ActionPref)
 │       ├── state/                # VivxContent LCE state machine
-│       └── layout/               # VivxOverlayScaffold & scope-aware spacers
+│       ├── layout/               # VivxOverlayScaffold & scope-aware spacers
+│       └── ui/
+│           ├── chat/             # VivxMessageBubble, VivxChatListItem, VivxDocumentBubble, VivxPinnedBar, VivxBadge
+│           ├── glass/            # VivxGlass, VivxGlassCard, VivxGlassPill
+│           ├── ambient/          # VivxAmbientGlow
+│           ├── player/           # VivxPlayerControls, VivxPlayerSlider
+│           ├── shimmer/          # VivxShimmer, VivxShimmerBox
+│           └── animation/        # VivxTactileClick, VivxExpandableText
 │   └── src/test/                 # Comprehensive unit tests
 └── sample/                       # Showcase Demo App
     └── src/main/kotlin/io/github/vivx/sample/
-        ├── MainActivity.kt       # 4-Tab showcase container
-        └── screens/              # Login, Register, LCE state & Media Player Demo screens
+        ├── MainActivity.kt       # 6-Tab showcase container
+        └── screens/              # Login, Register, LCE, Media Demo, Player UI & Chat UI screens
 ```
 
 ---
